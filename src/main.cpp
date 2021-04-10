@@ -1,12 +1,11 @@
 #include "Cheetah.h"
 CheetahSerial serial(12);
-void setup() 
+void setup()
 {
   Serial.begin(9600);
   delay(500);
 }
-
-void loop() 
+void loop()
 {
   //serial.modoTeste();
   serial.addAnalogSensor(34000);
@@ -20,6 +19,5 @@ void loop()
   serial.addDigitalSensor(1);
   serial.addDigitalSensor(1);
   serial.sendPayload();
-  
   delay(1000);
 }

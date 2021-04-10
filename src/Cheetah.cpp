@@ -44,7 +44,7 @@ void CheetahSerial::sendPayload()
     cont++;
   }
   //this->payload[5] = 255;
-  
+
   this->contA = 1;
   this->contD = 0;
 

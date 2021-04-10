@@ -1,6 +1,3 @@
-/*
-Biblioteca de gerenciamento das comunicações seriais da equipe CheetahE-Racing
-*/
 #ifndef CHEETAHSERIAL_H
 #define CHEETAHSERIAL_H
 #define lowByte(w) ((uint8_t) ((w) & 0xff))
@@ -8,7 +5,7 @@ Biblioteca de gerenciamento das comunicações seriais da equipe CheetahE-Racing
 #define MSG_SIZE 12
 #define N_SENSORES_MEDICAO 2
 #define N_SENSORES_DISCRETO 48
-#include <Arduino.h>
+#include "Arduino.h"
 
 class CheetahSerial
 {
