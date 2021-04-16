@@ -1,5 +1,5 @@
 #include "Cheetah.h"
-CheetahSerial serial(12);
+CheetahSerial serial(MSG_SIZE);
 void setup()
 {
   Serial.begin(9600);
@@ -7,8 +7,19 @@ void setup()
 }
 void loop()
 {
-  //serial.modoTeste();
-  serial.addAnalogSensor(34000);
+  serial.modoTeste();
+  //int sensor = analogRead(A0);
+  /*if(sensor <=65)
+  {
+    sensor = 65;
+  }
+  if(sensor >= 867)
+  {
+    sensor = 867;
+  }
+  sensor = map(sensor, 65 ,867,0,1500);
+
+  serial.addAnalogSensor(sensor);
   serial.addAnalogSensor(39570);
   serial.addDigitalSensor(1);
   serial.addDigitalSensor(0);
@@ -18,6 +29,8 @@ void loop()
   serial.addDigitalSensor(1);
   serial.addDigitalSensor(1);
   serial.addDigitalSensor(1);
+  */
   serial.sendPayload();
-  delay(1000);
+
+  delay(50);
 }

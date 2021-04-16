@@ -4,7 +4,7 @@ CheetahSerial::CheetahSerial(uint16_t msg_size)
 {
   this->contA = 1;
   this->contD = 0;
-  this->vel = 30000;
+  this->vel = 30;
   memset(this->payload , 0 , MSG_SIZE);
   memset(this->digital , 0 , N_SENSORES_DISCRETO);
 }
@@ -55,22 +55,44 @@ void CheetahSerial::sendPayload()
 
 void CheetahSerial::modoTeste()
 {
-  if(this->subindo)
+  int qtdTeste = 2;
+  for(int th = 0 ; th < qtdTeste ; th++)
   {
-    this->vel+=100;
-    if(this->vel>32768)
-      this->subindo = false;
-  }
-  else
-  {
-    this->vel-=100;
-    if(this->vel<11000)
-      this->subindo = true;
-    for(int i = 1 ; i < MSG_SIZE - 1 ; i++)
+    if(this->subindo)
     {
-      this->payload[i] = random(0,255);
+      this->vel+=1;
+      if(this->vel>4096)
+        this->subindo = false;
+    }
+    else
+    {
+      this->vel-=1;
+      if(this->vel<1)
+        this->subindo = true;
+      for(int i = 1 ; i < MSG_SIZE - 1 ; i++)
+      {
+        this->payload[i] = random(0,255);
+      }
     }
   }
   this->payload[1] = highByte(this->vel);
   this->payload[2] = lowByte(this->vel);
+  this->payload[3] = highByte(this->vel);
+  this->payload[4] = lowByte(this->vel);
+  this->payload[5] = highByte(this->vel);
+  this->payload[6] = lowByte(this->vel);
+  this->payload[7] = highByte(this->vel);
+  this->payload[8] = lowByte(this->vel);
+  this->payload[9] = highByte(this->vel);
+  this->payload[10] = lowByte(this->vel);
+  this->payload[11] = highByte(this->vel);
+  this->payload[12] = lowByte(this->vel);
+  this->payload[13] = highByte(this->vel);
+  this->payload[14] = lowByte(this->vel);
+  this->payload[15] = highByte(this->vel);
+  this->payload[16] = lowByte(this->vel);
+  this->payload[17] = highByte(this->vel);
+  this->payload[18] = lowByte(this->vel);
+  this->payload[19] = highByte(this->vel);
+  this->payload[20] = lowByte(this->vel);
 }

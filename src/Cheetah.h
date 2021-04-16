@@ -2,8 +2,8 @@
 #define CHEETAHSERIAL_H
 #define lowByte(w) ((uint8_t) ((w) & 0xff))
 #define highByte(w) ((uint8_t) ((w) >> 8))
-#define MSG_SIZE 12
-#define N_SENSORES_MEDICAO 2
+#define MSG_SIZE 28
+#define N_SENSORES_MEDICAO 10
 #define N_SENSORES_DISCRETO 48
 #include "Arduino.h"
 
@@ -14,7 +14,7 @@ class CheetahSerial
     uint16_t digital[N_SENSORES_DISCRETO];
     uint16_t contA;
     uint16_t contD;
-    bool subindo = false;
+    bool subindo;
     unsigned int vel;
   public:
     CheetahSerial(uint16_t msg_size);
