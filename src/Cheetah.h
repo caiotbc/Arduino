@@ -25,4 +25,10 @@ class CheetahSerial
     void addDigitalSensor(uint16_t value);
 };
 
+class Acelerometro
+{
+  public:
+      void banana();
+};
+
 #endif

@@ -5,8 +5,8 @@ CheetahSerial::CheetahSerial(uint16_t msg_size)
   this->contA = 1;
   this->contD = 0;
   this->vel = 30;
-  memset(this->payload , 0 , MSG_SIZE);
-  memset(this->digital , 0 , N_SENSORES_DISCRETO);
+  memset(this->payload , 0 , sizeof(this->payload));
+  memset(this->digital , 0 , sizeof(this->digital));
 }
 
 void CheetahSerial::addAnalogSensor(uint16_t value)
