@@ -96,3 +96,34 @@ void CheetahSerial::modoTeste()
   this->payload[19] = highByte(this->vel);
   this->payload[20] = lowByte(this->vel);
 }
+
+
+Acelerometro::Acelerometro()
+{
+  Wire.begin();
+  Wire.beginTransmission(MPU);
+  Wire.write(0x6B); 
+   
+  //Inicializa o MPU-6050
+  Wire.write(0); 
+  Wire.endTransmission(true);
+
+  memset(variaveis, 0, sizeof(variaveis));
+}
+
+uint16_t* Acelerometro::leituraVariaveis()
+{
+  Wire.beginTransmission(MPU);
+  Wire.write(0x3B);  // starting with register 0x3B (ACCEL_XOUT_H)
+  Wire.endTransmission(false);
+  //Solicita os dados do sensor
+  Wire.requestFrom(MPU,14,true);
+
+  for(int i = 0; i < 7; i++)
+  {
+    variaveis[i] = Wire.read()<<8|Wire.read();
+  }
+
+  return variaveis; 
+  
+}

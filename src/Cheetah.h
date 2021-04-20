@@ -1,11 +1,12 @@
-#ifndef CHEETAHSERIAL_H
-#define CHEETAHSERIAL_H
+#ifndef CHEETAH_H
+#define CHEETAH_H
 #define lowByte(w) ((uint8_t) ((w) & 0xff))
 #define highByte(w) ((uint8_t) ((w) >> 8))
 #define MSG_SIZE 28
 #define N_SENSORES_MEDICAO 10
 #define N_SENSORES_DISCRETO 48
 #include "Arduino.h"
+#include<Wire.h>
 
 class CheetahSerial
 {
@@ -23,6 +24,16 @@ class CheetahSerial
     void sendPayload();
     void addAnalogSensor(uint16_t value);
     void addDigitalSensor(uint16_t value);
+};
+
+class Acelerometro
+{
+  private:
+   uint16_t variaveis[7];
+   const int MPU=0x68;  
+  public:
+   Acelerometro();
+   uint16_t* leituraVariaveis();
 };
 
 #endif
