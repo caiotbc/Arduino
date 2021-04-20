@@ -1,6 +1,8 @@
 #include "Cheetah.h"
 
-CheetahSerial::CheetahSerial(uint16_t msg_size)
+MCP_CAN CAN0(10);
+
+CheetahSerial::CheetahSerial()
 {
   this->contA = 1;
   this->contD = 0;
@@ -95,4 +97,95 @@ void CheetahSerial::modoTeste()
   this->payload[18] = lowByte(this->vel);
   this->payload[19] = highByte(this->vel);
   this->payload[20] = lowByte(this->vel);
+}
+
+
+Acelerometro::Acelerometro()
+{
+  Wire.begin();
+  Wire.beginTransmission(MPU);
+  Wire.write(0x6B);
+
+  //Inicializa o MPU-6050
+  Wire.write(0);
+  Wire.endTransmission(true);
+
+  memset(variaveis, 0, sizeof(variaveis));
+}
+
+uint16_t* Acelerometro::leituraVariaveis()
+{
+  Wire.beginTransmission(MPU);
+  Wire.write(0x3B);  // starting with register 0x3B (ACCEL_XOUT_H)
+  Wire.endTransmission(false);
+  //Solicita os dados do sensor
+  Wire.requestFrom(MPU,14,true);
+
+  for(int i = 0; i < 7; i++)
+  {
+    variaveis[i] = Wire.read()<<8|Wire.read();
+  }
+
+  return variaveis;
+}
+
+void CheetahCAN::beginReceiver()
+{
+  if(CAN0.begin(MCP_ANY, CAN_500KBPS, MCP_16MHZ) == CAN_OK)
+    Serial.println("MCP2515 Initialized Successfully!");
+  else
+    Serial.println("Error Initializing MCP2515...");
+
+  CAN0.setMode(MCP_NORMAL);                     // Set operation mode to normal so the MCP2515 sends acks to received data.
+
+  pinMode(CAN0_INT, INPUT);                            // Configuring pin for /INT input
+
+  Serial.println("MCP2515 Library Receive Example...");
+}
+
+void CheetahCAN::beginTransmitter()
+{
+  Serial.begin(115200);
+  // Initialize MCP2515 running at 16MHz with a baudrate of 500kb/s and the masks and filters disabled.
+  if(CAN0.begin(MCP_ANY, CAN_500KBPS, MCP_16MHZ) == CAN_OK) Serial.println("MCP2515 Initialized Successfully!");
+  else Serial.println("Error Initializing MCP2515...");
+
+  CAN0.setMode(MCP_NORMAL);   // Change to normal mode to allow messages to be transmitted
+}
+
+void CheetahCAN::sendMessage(byte data[])
+{
+  // send data:  ID = 0x100, Standard CAN Frame, Data length = 8 bytes, 'data' = array of data bytes to send
+  byte sndStat = CAN0.sendMsgBuf(0x100, 0, 8, data);
+  if(sndStat == CAN_OK){
+    Serial.println("Message Sent Successfully!");
+  } else {
+    Serial.println("Error Sending Message...");
+  }
+  delay(100);   // send data per 100ms
+}
+
+bool CheetahCAN::readMessage()
+{
+  if(!digitalRead(CAN0_INT))
+  {
+    CAN0.readMsgBuf(&rxId, &rxLen, rxBuf);
+    return true;
+  }
+  return false;
+}
+
+byte* CheetahCAN::getMsg()
+{
+  return rxBuf;
+}
+
+uint16_t CheetahCAN::getMsgId()
+{
+  return rxId;
+}
+
+uint16_t CheetahCAN::getMsgLen()
+{
+  return rxLen;
 }
