@@ -30,7 +30,7 @@
 class MCP_CAN
 {
     private:
-    
+
     INT8U   m_nExtFlg;                                                  // Identifier Type
                                                                         // Extended (29 bit) or Standard (11 bit)
     INT32U  m_nID;                                                      // CAN ID
@@ -40,20 +40,20 @@ class MCP_CAN
     INT8U   m_nfilhit;                                                  // The number of the filter that matched the message
     INT8U   MCPCS;                                                      // Chip Select pin number
     INT8U   mcpMode;                                                    // Mode to return to after configurations are performed.
-    
+
 
 /*********************************************************************************************************
- *  mcp2515 driver function 
+ *  mcp2515 driver function
  *********************************************************************************************************/
    // private:
-   private:
+ private:
 
     void mcp2515_reset(void);                                           // Soft Reset MCP2515
 
     INT8U mcp2515_readRegister(const INT8U address);                    // Read MCP2515 register
-    
+
     void mcp2515_readRegisterS(const INT8U address,                     // Read MCP2515 successive registers
-                                     INT8U values[], 
+                                     INT8U values[],
                                const INT8U n);
 
     void mcp2515_setRegister(const INT8U address,                       // Set MCP2515 register
@@ -75,7 +75,7 @@ class MCP_CAN
     INT8U mcp2515_configRate(const INT8U canSpeed,                      // Set baudrate
 
                              const INT8U canClock);
-                             
+
     INT8U mcp2515_init(const INT8U canIDMode,                           // Initialize Controller
                        const INT8U canSpeed,
                        const INT8U canClock);

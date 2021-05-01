@@ -37,7 +37,7 @@
 #endif
 
 // if print debug information
-#define DEBUG_MODE 1
+#define DEBUG_MODE 0
 
 /*
  *   Begin mt
@@ -249,7 +249,7 @@
 /*
  *  Speed 8M
  */
-#define MCP_8MHz_1000kBPS_CFG1 (0x00)  
+#define MCP_8MHz_1000kBPS_CFG1 (0x00)
 #define MCP_8MHz_1000kBPS_CFG2 (0xC0)  /* Enabled SAM bit     */
 #define MCP_8MHz_1000kBPS_CFG3 (0x80)  /* Sample point at 75% */
 
