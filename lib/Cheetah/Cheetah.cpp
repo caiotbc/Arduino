@@ -1,7 +1,5 @@
 #include "Cheetah.h"
 
-MCP_CAN CAN0(10);
-
 CheetahSerial::CheetahSerial()
 {
   this->contA = 1;
@@ -129,47 +127,42 @@ uint16_t* Acelerometro::leituraVariaveis()
   return variaveis;
 }
 
-void CheetahCAN::beginReceiver()
+uint8_t CheetahCAN::beginCAN()
 {
-  if(CAN0.begin(MCP_ANY, CAN_500KBPS, MCP_16MHZ) == CAN_OK)
-    Serial.println("MCP2515 Initialized Successfully!");
+  int init_status = begin(MCP_ANY, CAN_500KBPS, MCP_16MHZ);
+  setMode(MCP_NORMAL);
+  if(init_status == CAN_OK)
+    return CAN_OK;
   else
-    Serial.println("Error Initializing MCP2515...");
+    return init_status;
+  pinMode(CAN0_INT, INPUT);
 
-  CAN0.setMode(MCP_NORMAL);                     // Set operation mode to normal so the MCP2515 sends acks to received data.
-
-  pinMode(CAN0_INT, INPUT);                            // Configuring pin for /INT input
-
-  Serial.println("MCP2515 Library Receive Example...");
+  this->cont8 = 0;
+  memset(this->payload , 0 , sizeof(this->payload));
 }
 
-void CheetahCAN::beginTransmitter()
+void CheetahCAN::addToPayload8(byte value)
 {
-  Serial.begin(115200);
-  // Initialize MCP2515 running at 16MHz with a baudrate of 500kb/s and the masks and filters disabled.
-  if(CAN0.begin(MCP_ANY, CAN_500KBPS, MCP_16MHZ) == CAN_OK) Serial.println("MCP2515 Initialized Successfully!");
-  else Serial.println("Error Initializing MCP2515...");
-
-  CAN0.setMode(MCP_NORMAL);   // Change to normal mode to allow messages to be transmitted
+  this->payload[this->cont8] = value;
+  this->cont8++;
 }
 
-void CheetahCAN::sendMessage(byte data[])
+uint8_t CheetahCAN::sendMessage(uint16_t id)
 {
-  // send data:  ID = 0x100, Standard CAN Frame, Data length = 8 bytes, 'data' = array of data bytes to send
-  byte sndStat = CAN0.sendMsgBuf(0x100, 0, 8, data);
-  if(sndStat == CAN_OK){
-    Serial.println("Message Sent Successfully!");
-  } else {
-    Serial.println("Error Sending Message...");
-  }
-  delay(100);   // send data per 100ms
+  byte sndStat = sendMsgBuf(id, 0, this->cont8, this->payload);
+  this->cont8 = 0;
+  if(sndStat == CAN_OK)
+    return 0;
+
+  Serial.println(sndStat);
+  return 1;
 }
 
 bool CheetahCAN::readMessage()
 {
   if(!digitalRead(CAN0_INT))
   {
-    CAN0.readMsgBuf(&rxId, &rxLen, rxBuf);
+    readMsgBuf(&rxId, &rxLen, rxBuf);
     return true;
   }
   return false;

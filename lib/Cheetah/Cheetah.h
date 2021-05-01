@@ -2,10 +2,10 @@
 #define CHEETAH_H
 #define lowByte(w) ((uint8_t) ((w) & 0xff))
 #define highByte(w) ((uint8_t) ((w) >> 8))
-#define MSG_SIZE 28
-#define N_SENSORES_MEDICAO 10
-#define N_SENSORES_DISCRETO 48
-#define CAN0_INT 2                              // Set INT to pin 2
+#define MSG_SIZE 10 //EM BYTES, CONSULTAR DOCUMENTACAO
+#define N_SENSORES_MEDICAO 4
+#define N_SENSORES_DISCRETO 0
+#define CAN0_INT 2
 #include "Arduino.h"
 #include <mcp_can.h>
 #include <Wire.h>
@@ -40,17 +40,20 @@ class Acelerometro
    uint16_t* leituraVariaveis();
 };
 
-class CheetahCAN
+class CheetahCAN : public MCP_CAN
 {
+  using MCP_CAN::MCP_CAN;
   private:
+    byte payload[8];
+    uint8_t cont8;
     long unsigned int rxId;
     unsigned char rxLen = 0;
     unsigned char rxBuf[8];
   public:
-    void beginReceiver();
-    void beginTransmitter();
+    void addToPayload8(byte value);
+    uint8_t beginCAN();
     bool readMessage();
-    void sendMessage(byte data[]);
+    uint8_t sendMessage(uint16_t id);
     uint16_t getMsgId();
     uint16_t getMsgLen();
     byte* getMsg();
