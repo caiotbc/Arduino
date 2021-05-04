@@ -29,5 +29,5 @@ void loop()
     Serial.println("Mensagem enviada com sucesso");
   else
     Serial.println("Erro ao enviar mensagem");
-  delay(1);
+  delay(500);
 }
