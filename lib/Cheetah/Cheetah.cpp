@@ -129,7 +129,7 @@ uint16_t* Acelerometro::leituraVariaveis()
 
 uint8_t CheetahCAN::beginCAN()
 {
-  int init_status = begin(MCP_ANY, CAN_500KBPS, MCP_16MHZ);
+  int init_status = begin(MCP_ANY, CAN_500KBPS, MCP_8MHZ);
   setMode(MCP_NORMAL);
   if(init_status == CAN_OK)
     return CAN_OK;
