@@ -11,6 +11,7 @@
 #include <Wire.h>
 #include <SPI.h>
 #include <HX711.h>
+#include <config.h>
 
 class CheetahSerial
 {
@@ -60,6 +61,8 @@ class CheetahCAN : public MCP_CAN
 
 class CelulaDeCarga : public HX711
 {
-
+  public:
+    CelulaDeCarga::CelulaDeCarga();
+    uint16_t testeCelula();
 };
 #endif

@@ -139,3 +139,22 @@ uint16_t CheetahCAN::getMsgLen()
 {
   return rxLen;
 }
+
+CelulaDeCarga::CelulaDeCarga()
+{
+  begin(CELULACARGA_DOUT_PIN , CELULACARGA_SCK_PIN);
+}
+
+uint16_t CelulaDeCarga::testeCelula()
+{
+  Serial.println("Inicializando a celula");
+  Serial.print("Leitura bruta do ADC");
+  Serial.println(read());
+  Serial.print("Media de 20 leituras");
+  Serial.println(read_average(20));
+  Serial.print("Coloque um objeto de peso conhecido e anote o valor obtido a seguir");
+  set_scale(CELULACARGA_DIV);
+  tare();
+  Serial.println(get_value(20));
+  Serial.println("Ajuste o parametro em config.h para obter uma medida precisa");
+}
