@@ -65,4 +65,5 @@ class CelulaDeCarga : public HX711
     CelulaDeCarga::CelulaDeCarga();
     uint16_t testeCelula();
 };
+
 #endif
