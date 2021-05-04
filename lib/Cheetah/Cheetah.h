@@ -10,7 +10,7 @@
 #include <mcp_can.h>
 #include <Wire.h>
 #include <SPI.h>
-
+#include <HX711.h>
 
 class CheetahSerial
 {
@@ -24,7 +24,6 @@ class CheetahSerial
   public:
     CheetahSerial();
     void addToPayload(uint16_t value);
-    void modoTeste();
     void sendPayload();
     void addAnalogSensor(uint16_t value);
     void addDigitalSensor(uint16_t value);
@@ -57,5 +56,10 @@ class CheetahCAN : public MCP_CAN
     uint16_t getMsgId();
     uint16_t getMsgLen();
     byte* getMsg();
+};
+
+class CelulaDeCarga : public HX711
+{
+
 };
 #endif

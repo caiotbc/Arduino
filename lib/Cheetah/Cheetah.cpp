@@ -53,49 +53,6 @@ void CheetahSerial::sendPayload()
   Serial.write(this->payload, MSG_SIZE);
 }
 
-void CheetahSerial::modoTeste()
-{
-  int qtdTeste = 2;
-  for(int th = 0 ; th < qtdTeste ; th++)
-  {
-    if(this->subindo)
-    {
-      this->vel+=1;
-      if(this->vel>4096)
-        this->subindo = false;
-    }
-    else
-    {
-      this->vel-=1;
-      if(this->vel<1)
-        this->subindo = true;
-      for(int i = 1 ; i < MSG_SIZE - 1 ; i++)
-      {
-        this->payload[i] = random(0,255);
-      }
-    }
-  }
-  this->payload[1] = highByte(this->vel);
-  this->payload[2] = lowByte(this->vel);
-  this->payload[3] = highByte(this->vel);
-  this->payload[4] = lowByte(this->vel);
-  this->payload[5] = highByte(this->vel);
-  this->payload[6] = lowByte(this->vel);
-  this->payload[7] = highByte(this->vel);
-  this->payload[8] = lowByte(this->vel);
-  this->payload[9] = highByte(this->vel);
-  this->payload[10] = lowByte(this->vel);
-  this->payload[11] = highByte(this->vel);
-  this->payload[12] = lowByte(this->vel);
-  this->payload[13] = highByte(this->vel);
-  this->payload[14] = lowByte(this->vel);
-  this->payload[15] = highByte(this->vel);
-  this->payload[16] = lowByte(this->vel);
-  this->payload[17] = highByte(this->vel);
-  this->payload[18] = lowByte(this->vel);
-  this->payload[19] = highByte(this->vel);
-  this->payload[20] = lowByte(this->vel);
-}
 
 
 Acelerometro::Acelerometro()
