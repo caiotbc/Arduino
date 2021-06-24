@@ -1,5 +1,4 @@
 #include "Cheetah.h"
-
 CheetahSerial::CheetahSerial()
 {
   this->contA = 1;
@@ -112,7 +111,7 @@ uint8_t CheetahCAN::sendMessage(uint16_t id)
     return 0;
 
   Serial.println(sndStat);
-  return 1;
+  return sndStat;
 }
 
 bool CheetahCAN::readMessage()

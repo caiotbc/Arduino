@@ -2,14 +2,13 @@
 #define CHEETAH_H
 #define lowByte(w) ((uint8_t) ((w) & 0xff))
 #define highByte(w) ((uint8_t) ((w) >> 8))
-#define MSG_SIZE 10 //EM BYTES, CONSULTAR DOCUMENTACAO
-#define N_SENSORES_MEDICAO 4
-#define N_SENSORES_DISCRETO 0
+#define MSG_SIZE 34 //EM BYTES, CONSULTAR DOCUMENTACAO
+#define N_SENSORES_MEDICAO 16
+#define N_SENSORES_DISCRETO 8
 #define CAN0_INT 2
 #include "Arduino.h"
-#include <mcp_can.h>
+#include "mcpcan.h"
 #include <Wire.h>
-#include <SPI.h>
 #include <HX711.h>
 #include <config.h>
 
@@ -24,7 +23,6 @@ class CheetahSerial
     unsigned int vel;
   public:
     CheetahSerial();
-    void addToPayload(uint16_t value);
     void sendPayload();
     void addAnalogSensor(uint16_t value);
     void addDigitalSensor(uint16_t value);
@@ -62,8 +60,9 @@ class CheetahCAN : public MCP_CAN
 class CelulaDeCarga : public HX711
 {
   public:
-    CelulaDeCarga::CelulaDeCarga();
+    CelulaDeCarga();
     uint16_t testeCelula();
+    uint16_t readCellValue();
 };
 
 #endif
